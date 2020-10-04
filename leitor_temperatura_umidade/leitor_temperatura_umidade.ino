@@ -7,18 +7,18 @@
 #include <InfluxDbCloud.h>
 
 // Configuração Wi-fi
-#define WIFI_SSID "Nome da Rede"
-#define WIFI_PASSWORD "Senha da rede"
+#define WIFI_SSID "Nome da rede"
+#define WIFI_PASSWORD "Senha rede"
 
 
 // Configuração InfluxDB
-#define INFLUXDB_URL "http://Ip da máquina onde o influx está instalado:9999"
+#define INFLUXDB_URL "http://Ip da máquina onde o InfluxDB está instalado:9999"
 // Token de autenticação do InfluxDB (Use: InfluxDB UI -> Data -> Tokens -> <select token>)
-#define INFLUXDB_TOKEN "Token de autentificação"
+#define INFLUXDB_TOKEN "Token de autenficação do InfluxDB"
 // Id da organização (Use: InfluxDB UI -> User -> About -> Common Ids )
-#define INFLUXDB_ORG "Id Organização"
+#define INFLUXDB_ORG "ID Organização"
 // Id do bucket do InfluxDB(Use: InfluxDB UI ->  Data -> Buckets)
-#define INFLUXDB_BUCKET "Bucket"
+#define INFLUXDB_BUCKET "ID do Bucket"
 
 // Definição Time Zone
 #define TZ_INFO "BRST+3BRDT+2,M10.3.0,M2.3.0"
@@ -60,11 +60,30 @@ void loop()
     // Leitura dos dados de Temperatura e Umidade
     DHT.read11(pinoDHT11);
 
+    // Adicionando os Fields contendo os Metadados
+    sensor.addField("Nome","Sensor 1");
+    sensor.addField("Modelo MCU","Wemos D1 R1");
+    
+    sensor.addField("Modelo Sensor","DHT 11");
+    sensor.addField("Unidade de medida temperatura","Celsius");
+    sensor.addField("Unidade de medida umidade","Umidade Relativa");
+    sensor.addField("Faixa medição temperatura"," 0° a 50°");
+    sensor.addField("Faixa medição umidade"," 20% a 90%");
+   
+    sensor.addField("Margem de erro temperatura","± 2.0 ºC");
+    sensor.addField("Margem de erro umidade","± 5,0% UR");
+    sensor.addField("Tempo de resposta","2s");
+    
+    sensor.addField("Data Instalação","04/10/2020");
+    sensor.addField("Data Última Troca Sensor","04/10/2020");
+    sensor.addField("Data Última Troca MCU","04/10/2020");
+
+  
     // Adicionando os Fields de Umidade de Temperatura
     sensor.addField("Umidade",DHT.humidity);
     sensor.addField("Temperatura", DHT.temperature);
 
-    // Transforma os dado para o padrão Line Protocol
+    // Transforma os dados para o padrão Line Protocol
     sensor.toLineProtocol();
 
     // Insere os dados no InfluxDB
