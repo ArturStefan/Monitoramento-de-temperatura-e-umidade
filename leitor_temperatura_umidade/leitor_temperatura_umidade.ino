@@ -1,21 +1,34 @@
-#include "dht.h" //INCLUSÃO DE BIBLIOTECA
+#include <ESP8266WiFi.h>
+#include "dht.h"
+
+const char* ssid = "Nome da sua rede";
+const char* password = "Senha da rede";
+
+const int pinoDHT11 = D7;
  
-const int pinoDHT11 = D7; //PINO ANALÓGICO UTILIZADO PELO DHT11
+dht DHT;
  
-dht DHT; //VARIÁVEL DO TIPO DHT
+void setup()
+  {
+
+    Serial.begin(115200);
+  
+    WiFi.begin(ssid, password);
+  
+    while (WiFi.status() != WL_CONNECTED)
+      {
+        delay(500);
+      }
+  }
  
-void setup(){
-  Serial.begin(115200); //INICIALIZA A SERIAL
-  delay(2000); //INTERVALO DE 2 SEGUNDO ANTES DE INICIAR
-}
- 
-void loop(){
-  DHT.read11(pinoDHT11); //LÊ AS INFORMAÇÕES DO SENSOR
-  Serial.print("Umidade: "); //IMPRIME O TEXTO NA SERIAL
-  Serial.print(DHT.humidity); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO
-  Serial.print("%"); //ESCREVE O TEXTO EM SEGUIDA
-  Serial.print(" / Temperatura: "); //IMPRIME O TEXTO NA SERIAL
-  Serial.print(DHT.temperature, 0); //IMPRIME NA SERIAL O VALOR DE UMIDADE MEDIDO E REMOVE A PARTE DECIMAL
-  Serial.println("*C"); //IMPRIME O TEXTO NA SERIAL
-  delay(10000); //INTERVALO DE 10 SEGUNDOS * NÃO DIMINUIR ESSE VALOR
-}
+void loop()
+  {
+    DHT.read11(pinoDHT11);
+    Serial.print("Umidade: ");
+    Serial.print(DHT.humidity);
+    Serial.print("%");
+    Serial.print(" / Temperatura: ");
+    Serial.print(DHT.temperature, 0);
+    Serial.println("*C");
+    delay(10000);
+  }
