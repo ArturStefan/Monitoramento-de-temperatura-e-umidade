@@ -62,7 +62,7 @@ void loop()
 
     // Adicionando os Fields contendo os Metadados
     sensor.addField("Nome","Sensor 1");
-    sensor.addField("Modelo MCU","Wemos D1 R1");
+    sensor.addField("Modelo MCU","Wemos D1 mini");
     
     sensor.addField("Modelo Sensor","DHT 11");
     sensor.addField("Unidade de medida temperatura","Celsius");
